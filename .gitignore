@@ -1,2 +1,3 @@
 *.o
 thread_pool
+.idea
