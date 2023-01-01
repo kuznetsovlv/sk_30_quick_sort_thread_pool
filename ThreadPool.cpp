@@ -3,6 +3,7 @@
 #include "ThreadPool.h"
 #include "InterruptableThread.h"
 #include "InterruptNotificator.h"
+#include "TaskMonitor.h"
 
 Task::Task():_task(nullptr)
 {
@@ -63,6 +64,11 @@ res_type ThreadPool::push_task(FuncType f, int id, int arg)
 res_type ThreadPool::push_task(FuncTypeTask f, bool arg1, bool arg2, bool arg3)
 {
     return push_task([=](){f(arg1, arg2, arg3);});
+}
+
+res_type ThreadPool::push_task(FuncTypeArr f, int *beg, int *end, TaskMonitor &monitor)
+{
+    return push_task([=, &monitor](){f(beg, end, monitor);});
 }
 
 res_type ThreadPool::push_task(task_type taskFunc)
